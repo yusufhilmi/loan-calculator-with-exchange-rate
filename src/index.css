@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply bg-gray-900 text-slate-200;
+}
+
+label {
+  @apply inline-flex flex-col font-semibold;
+}
+
+input {
+  @apply rounded-md bg-slate-700 p-2 text-right text-slate-300;
+}
