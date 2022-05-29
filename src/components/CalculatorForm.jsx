@@ -101,25 +101,59 @@ function CalculatorForm() {
       <br />
 
       {monthlyPayment ? (
-        <p className="text-xl font-semibold">{monthlyPayment}</p>
+        <p className="mb-4 text-xl font-semibold">{monthlyPayment}</p>
       ) : (
         ""
       )}
-      <ol>
+
+      <div className="max-h-[40vh] overflow-scroll md:max-h-max">
         {months ? (
-          months.map((month, i) => {
-            return (
-              <li>
-                <span className="mr-2 font-semibold">Month {i + 1}</span>:{" "}
-                {month[0].toFixed(2)} : {month[1].toFixed(2)} :{" "}
-                {month[2].toFixed(2)} : {month[3].toFixed(2)}
-              </li>
-            );
-          })
+          <table className="table-auto">
+            <thead className="sticky top-0 bg-slate-800 shadow-lg shadow-slate-800 after:absolute after:inset-0 after:w-full after:border-t after:border-b after:border-slate-500 md:shadow-none">
+              <tr>
+                <th className="border border-y-0 border-slate-500 p-2"></th>
+                <th className="border border-y-0 border-slate-500 p-2">
+                  Payment
+                </th>
+                <th className="border border-y-0 border-slate-500 p-2">
+                  Interest
+                </th>
+                <th className="border border-y-0 border-slate-500 p-2">
+                  Principal
+                </th>
+                <th className="border border-y-0 border-slate-500 p-2">
+                  Remaining
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {months.map((month, i) => {
+                return (
+                  <tr key={i}>
+                    <td className="border border-slate-500 bg-slate-800 p-2 font-semibold">
+                      Month {i + 1}
+                    </td>
+                    <td className="border border-slate-500 p-2">
+                      {month[0].toFixed(2)}
+                    </td>
+                    <td className="border border-slate-500 p-2">
+                      {month[1].toFixed(2)}
+                    </td>
+                    <td className="border border-slate-500 p-2">
+                      {month[2].toFixed(2)}
+                    </td>
+                    <td className="border border-slate-500 p-2">
+                      {month[3].toFixed(2)}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         ) : (
-          <p>HOLA</p>
+          ""
         )}
-      </ol>
+      </div>
     </div>
   );
 }
