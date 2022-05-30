@@ -3,9 +3,12 @@ import React, { useState, useEffect } from "react";
 function CalculatorForm() {
   const [loanAmount, setLoanAmount] = useState(1000000);
   const [interestRate, setInterestRate] = useState(1.29);
+  const [exchangeRatePrice, setExchangeRatePrice] = useState(16.3);
+  const [exchangeRateIncrease, setExchangeRateIncrease] = useState(1.7);
   const [loanTerm, setLoanTerm] = useState(120);
   const [monthlyPayment, setMonthlyPayment] = useState(null);
   const [months, setMonths] = useState(null);
+  const [totalPaidEquivalent, setTotalPaidEquivalent] = useState(0);
 
   const calculateMonthly = (amount, interest, months) => {
     // there is more complex calculations of course but this simple one is enough for our purposes
@@ -19,29 +22,76 @@ function CalculatorForm() {
     let monthly = calculateMonthly(loanAmount, interestRate / 100, loanTerm);
     setMonthlyPayment(monthly);
     const monthlyPayments = [];
-    let remaining = loanAmount;
-    let interest, principal;
+    let remaining = loanAmount,
+      assumedExchangeRate = exchangeRatePrice,
+      totalPaidEquivalent = 0;
+    let interest, principal, exhangeEquivalent;
     for (let i = 0; i < loanTerm; i++) {
       interest = remaining * (interestRate / 100);
       principal = monthly - interest;
       remaining = remaining - principal;
-      monthlyPayments.push([monthly, interest, principal, remaining]);
+      exhangeEquivalent = monthly / assumedExchangeRate;
+      assumedExchangeRate *= 1 + exchangeRateIncrease / 100;
+      totalPaidEquivalent += exhangeEquivalent;
+      monthlyPayments.push([
+        monthly,
+        interest,
+        principal,
+        remaining,
+        exhangeEquivalent,
+        assumedExchangeRate,
+      ]);
     }
     setMonths(monthlyPayments);
+    setTotalPaidEquivalent(totalPaidEquivalent);
   };
 
-  // required because we're setting two other states and don't want infinite renders
+  // required because we're setting two other states and don't want infinite re-renders
   useEffect(() => {
     calculateLoan();
   }, []);
 
   useEffect(() => {
     calculateLoan();
-  }, [loanAmount, interestRate, loanTerm]);
+  }, [
+    loanAmount,
+    interestRate,
+    loanTerm,
+    exchangeRateIncrease,
+    exchangeRatePrice,
+  ]);
 
   return (
     <div className="flex flex-col items-center">
       <form action="/" className="m-10 inline-block">
+        <fieldset className="flex">
+          <label htmlFor="exchange-rate-price" className="mr-4">
+            Exchange Rate (current price)
+            <input
+              type="number"
+              name="exchange-rate-price"
+              id="exchange-rate-price"
+              step={0.01}
+              value={exchangeRatePrice}
+              onChange={(e) => {
+                setExchangeRatePrice(Number(e.target.value));
+              }}
+            />
+          </label>
+          <label htmlFor="exchange-rate-increase" className="mr-4">
+            Exchange Rate (monthly %)
+            <input
+              type="number"
+              name="exchange-rate-increase"
+              id="exchange-rate-increase"
+              step={0.01}
+              value={exchangeRateIncrease}
+              onChange={(e) => {
+                setExchangeRateIncrease(Number(e.target.value));
+              }}
+            />
+          </label>
+        </fieldset>
         <label htmlFor="loan-amount" className="mb-4 w-full">
           Loan Amount
           <input
@@ -101,7 +151,16 @@ function CalculatorForm() {
       <br />
 
       {monthlyPayment ? (
-        <p className="mb-4 text-xl font-semibold">{monthlyPayment}</p>
+        <p className="mb-4 text-xl font-semibold">
+          Monthly: {monthlyPayment}
+          <br /> Loan Amount in TRY: {loanAmount}
+          <br />
+          Total Paid in TRY: {monthlyPayment * loanTerm}
+          <br />
+          Loan Amount Equivalent: {loanAmount / exchangeRatePrice}
+          <br />
+          Total Paid in USD: {totalPaidEquivalent}
+        </p>
       ) : (
         ""
       )}
@@ -124,6 +183,12 @@ function CalculatorForm() {
                 <th className="border border-y-0 border-slate-500 p-2">
                   Remaining
                 </th>
+                <th className="border border-y-0 border-slate-500 p-2">
+                  Equivalent
+                </th>
+                <th className="border border-y-0 border-slate-500 p-2">
+                  Assumed Exchange Rate
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -144,6 +209,12 @@ function CalculatorForm() {
                     </td>
                     <td className="border border-slate-500 p-2">
                       {month[3].toFixed(2)}
+                    </td>
+                    <td className="border border-slate-500 p-2">
+                      {month[4].toFixed(2)}
+                    </td>
+                    <td className="border border-slate-500 p-2">
+                      {month[5].toFixed(2)}
                     </td>
                   </tr>
                 );
