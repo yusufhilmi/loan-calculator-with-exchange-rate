@@ -30,6 +30,10 @@ function CalculatorForm() {
       interest = remaining * (interestRate / 100);
       principal = monthly - interest;
       remaining = remaining - principal;
+      // handle rounding error, reduce precision when there is time instead
+      if (remaining < 0) {
+        remaining = 0;
+      }
       exhangeEquivalent = monthly / assumedExchangeRate;
       assumedExchangeRate *= 1 + exchangeRateIncrease / 100;
       totalPaidEquivalent += exhangeEquivalent;
@@ -165,10 +169,10 @@ function CalculatorForm() {
         ""
       )}
 
-      <div className="max-h-[40vh] overflow-scroll md:max-h-max">
+      <div className="mt-8">
         {months ? (
-          <table className="table-auto">
-            <thead className="sticky top-0 bg-slate-800 shadow-lg shadow-slate-800 after:absolute after:inset-0 after:w-full after:border-t after:border-b after:border-slate-500 md:shadow-none">
+          <table className="table-auto text-center">
+            <thead className="sticky top-8 bg-slate-800 before:absolute before:-top-8 before:left-0 before:h-8  before:w-full before:bg-gray-900 after:absolute after:inset-0 after:w-full after:border-t after:border-b after:border-slate-500">
               <tr>
                 <th className="border border-y-0 border-slate-500 p-2"></th>
                 <th className="border border-y-0 border-slate-500 p-2">
@@ -184,10 +188,10 @@ function CalculatorForm() {
                   Remaining
                 </th>
                 <th className="border border-y-0 border-slate-500 p-2">
-                  Equivalent
+                  Equivalent (USD)
                 </th>
                 <th className="border border-y-0 border-slate-500 p-2">
-                  Assumed Exchange Rate
+                  Assumed (USD/TRY)
                 </th>
               </tr>
             </thead>
@@ -199,26 +203,71 @@ function CalculatorForm() {
                       Month {i + 1}
                     </td>
                     <td className="border border-slate-500 p-2">
-                      {month[0].toFixed(2)}
+                      {new Intl.NumberFormat("tr-TR").format(
+                        month[0].toFixed(2)
+                      )}
                     </td>
                     <td className="border border-slate-500 p-2">
-                      {month[1].toFixed(2)}
+                      {new Intl.NumberFormat("tr-TR").format(
+                        month[1].toFixed(2)
+                      )}
                     </td>
                     <td className="border border-slate-500 p-2">
-                      {month[2].toFixed(2)}
+                      {new Intl.NumberFormat("tr-TR").format(
+                        month[2].toFixed(2)
+                      )}
                     </td>
                     <td className="border border-slate-500 p-2">
-                      {month[3].toFixed(2)}
+                      {new Intl.NumberFormat("tr-TR").format(
+                        month[3].toFixed(2)
+                      )}
                     </td>
                     <td className="border border-slate-500 p-2">
-                      {month[4].toFixed(2)}
+                      $
+                      {new Intl.NumberFormat("tr-TR").format(
+                        month[4].toFixed(2)
+                      )}
                     </td>
                     <td className="border border-slate-500 p-2">
-                      {month[5].toFixed(2)}
+                      {new Intl.NumberFormat("tr-TR").format(
+                        month[5].toFixed(2)
+                      )}
                     </td>
                   </tr>
                 );
               })}
+              <tr>
+                <td className="border border-slate-500 bg-slate-800 p-2 font-semibold">
+                  TOTAL
+                </td>
+                <td className="border border-slate-500 p-2">
+                  {new Intl.NumberFormat("tr-TR").format(
+                    (monthlyPayment * loanTerm).toFixed(2)
+                  )}
+                </td>
+                <td className="border border-slate-500 p-2">
+                  {new Intl.NumberFormat("tr-TR").format(
+                    (monthlyPayment * loanTerm - loanAmount).toFixed(2)
+                  )}
+                </td>
+                <td className="border border-slate-500 p-2">
+                  {new Intl.NumberFormat("tr-TR").format(loanAmount)}
+                </td>
+                <td className="border border-slate-500 p-2">0</td>
+                <td className="border border-slate-500 p-2">
+                  $
+                  {new Intl.NumberFormat("tr-TR").format(
+                    totalPaidEquivalent.toFixed(2)
+                  )}
+                </td>
+                <td className="border border-slate-500 p-2">
+                  {new Intl.NumberFormat("tr-TR").format(
+                    ((monthlyPayment * loanTerm) / totalPaidEquivalent).toFixed(
+                      2
+                    )
+                  )}
+                </td>
+              </tr>
             </tbody>
           </table>
         ) : (
