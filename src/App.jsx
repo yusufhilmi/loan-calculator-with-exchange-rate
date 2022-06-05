@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import BreakdownTable from "./components/BreakdownTable";
 import CalculatorForm from "./components/CalculatorForm";
 import LoanPaymentSummary from "./components/LoanPaymentSummary";
 import LoanSummary from "./components/LoanSummary";
@@ -102,6 +103,12 @@ function App() {
       totalPaid: new Intl.NumberFormat("tr-TR").format(
         (monthly * loan.term).toFixed(2)
       ),
+      totalInterest: new Intl.NumberFormat("tr-TR").format(
+        (monthly * loan.term - loan.amount).toFixed(2)
+      ),
+      averageExchangeRate: new Intl.NumberFormat("tr-TR").format(
+        ((monthly * loan.term) / totalPaidEquivalent).toFixed(2)
+      ),
       totalPaidEquivalent: new Intl.NumberFormat("tr-TR").format(
         totalPaidEquivalent.toFixed(2)
       ),
@@ -156,12 +163,15 @@ function App() {
       {!results.show ? (
         ""
       ) : (
-        <LoanSummary
-          loan={loan}
-          exchangeRate={exchangeRate}
-          revenue={revenue}
-          results={results}
-        ></LoanSummary>
+        <>
+          <LoanSummary
+            loan={loan}
+            exchangeRate={exchangeRate}
+            revenue={revenue}
+            results={results}
+          ></LoanSummary>
+          <BreakdownTable results={results} loan={loan}></BreakdownTable>
+        </>
       )}
     </div>
   );
