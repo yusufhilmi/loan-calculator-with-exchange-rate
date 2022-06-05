@@ -1,8 +1,16 @@
 import React from "react";
 
 function CalculatorForm(props) {
+  const handleClick = (e) => {
+    e.preventDefault();
+    props.setResults((prev) => ({ ...prev, show: true }));
+  };
+
   return (
-    <form className="rounded-xl border-[0.25px] border-levi-600 bg-levi-800 p-6 px-3">
+    <form
+      onSubmit={handleClick}
+      className="rounded-xl border-[0.25px] border-levi-600 bg-levi-800 p-6 px-3"
+    >
       <h4 className="mb-4 px-3 text-xl font-black">Assumptions</h4>
       <div className="gradient-border mb-4">
         <div className="rounded-lg border-transparent bg-levi-800 p-3">

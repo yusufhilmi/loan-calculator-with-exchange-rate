@@ -25,12 +25,14 @@ function App() {
   });
 
   const [results, setResults] = useState({
+    show: false,
     monthsBreakdown: null,
     monthlyPayment: null,
     totalPaid: null,
     totalPaidEquivalent: null,
     totalRevenue: null,
     totalRevenueEquivalent: null,
+    net: null,
   });
 
   const calculateMonthly = (amount, interest, months) => {
@@ -89,14 +91,28 @@ function App() {
         revEquivalent,
       ]);
     }
+
+    const net =
+      loan.amount / exchangeRate.current -
+      totalPaidEquivalent +
+      totalRevenueEquivalent;
     setResults((prev) => ({
       ...prev,
-      monthlyPayment: monthly.toFixed(2),
+      monthlyPayment: new Intl.NumberFormat("tr-TR").format(monthly.toFixed(2)),
       monthsBreakdown: monthlyPayments,
-      totalPaid: (monthly * loan.term).toFixed(2),
-      totalPaidEquivalent: totalPaidEquivalent,
-      totalRevenue: totalRevenue,
-      totalRevenueEquivalent: totalRevenueEquivalent,
+      totalPaid: new Intl.NumberFormat("tr-TR").format(
+        (monthly * loan.term).toFixed(2)
+      ),
+      totalPaidEquivalent: new Intl.NumberFormat("tr-TR").format(
+        totalPaidEquivalent.toFixed(2)
+      ),
+      totalRevenue: new Intl.NumberFormat("tr-TR").format(
+        totalRevenue.toFixed(2)
+      ),
+      totalRevenueEquivalent: new Intl.NumberFormat("tr-TR").format(
+        totalRevenueEquivalent.toFixed(2)
+      ),
+      net: new Intl.NumberFormat("tr-TR").format(net.toFixed(2)),
     }));
   };
 
@@ -106,15 +122,14 @@ function App() {
 
   return (
     <div className="m-2">
-      <h1 className="text-center text-xl font-black md:text-3xl xl:text-4xl">
+      <h1 className="mb-4 text-center text-xl font-black md:text-3xl xl:text-4xl">
         Loan Calculator <br />
         <span className="text-lg md:text-2xl xl:text-3xl">
           with Exchange Rate and Inflation
         </span>
       </h1>
-      <Warnings />
       <div className="mb-12">
-        <h3 className="mb-8 text-center font-barlow text-lg text-levi-400 md:text-xl">
+        <h3 className="mb-4 text-center font-barlow text-lg text-levi-400 md:text-xl">
           How much you actually will pay for a low interest rate loan in{" "}
           <abbr title="or any other currency losing value against USD">
             TRY
@@ -130,10 +145,25 @@ function App() {
           setRevenue={setRevenue}
           setResults={setResults}
         ></CalculatorForm>
-        <LoanPaymentSummary loan={loan} results={results}></LoanPaymentSummary>
+        {!results.show ? (
+          <Warnings />
+        ) : (
+          <LoanPaymentSummary
+            loan={loan}
+            results={results}
+          ></LoanPaymentSummary>
+        )}
       </div>
-
-      <LoanSummary results={results}></LoanSummary>
+      {!results.show ? (
+        ""
+      ) : (
+        <LoanSummary
+          loan={loan}
+          exchangeRate={exchangeRate}
+          revenue={revenue}
+          results={results}
+        ></LoanSummary>
+      )}
     </div>
   );
 }
