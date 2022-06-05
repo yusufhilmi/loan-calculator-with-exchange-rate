@@ -8,11 +8,11 @@ body {
 }
 
 label {
-  @apply inline-flex flex-col font-semibold;
+  @apply inline-flex flex-col text-xs font-light text-levi-400 md:text-base;
 }
 
 input {
-  @apply rounded-md bg-slate-700 p-2 text-right text-slate-300;
+  @apply mt-1 w-full rounded-md bg-levi-900 p-2 text-right font-light text-levi-300;
 }
 
 h1,
@@ -30,4 +30,8 @@ p {
 
 b {
   @apply font-semibold;
+}
+
+.gradient-border {
+  @apply rounded-lg bg-gradient-to-b from-orange-300 to-red-300 bg-origin-border p-[0.5px];
 }

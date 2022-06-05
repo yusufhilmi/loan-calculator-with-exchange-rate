@@ -59,6 +59,19 @@ function App() {
           </p>
         </Card>
       </main>
+      <div className="">
+        <h3 className="mb-8 text-center font-barlow text-lg text-levi-400 md:text-xl">
+          How much you actually will pay for a low interest rate loan in{" "}
+          <abbr title="or any other currency losing value against USD">
+            TRY
+          </abbr>{" "}
+          when you’re earning USD.
+        </h3>
+        <CalculatorForm
+          exchangeRate={16.4}
+          setExchangeRate={() => {}}
+        ></CalculatorForm>
+      </div>
     </div>
   );
 }
