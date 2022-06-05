@@ -1,9 +1,9 @@
 import React from "react";
 
-function BreakdownTable({ results, loan }) {
+function BreakdownTable({ results, loan, revenue }) {
   return (
     <div className="mt-12">
-      <table className="text-center">
+      <table className="mx-auto text-center">
         <thead className="bg-levi-800">
           <tr>
             <th></th>
@@ -13,15 +13,17 @@ function BreakdownTable({ results, loan }) {
             {loan.showPrincipal ? <th>Remaining</th> : ""}
             <th>$</th>
             <th className="tracking-tighter">USD / TRY</th>
-            <th>Revenue</th>
-            <th>$</th>
+            {revenue.include ? <th>Revenue</th> : ""}
+            {revenue.include ? <th>$</th> : ""}
           </tr>
         </thead>
         <tbody>
           {results.monthsBreakdown.map((month, i) => {
             return (
               <tr key={i}>
-                <td className="bg-levi-800 font-medium">Month {i + 1}</td>
+                <td className="bg-levi-800 font-medium md:font-orb">
+                  Month {i + 1}
+                </td>
                 <td>
                   {new Intl.NumberFormat("tr-TR").format(month[0].toFixed(2))}₺
                 </td>
@@ -55,12 +57,26 @@ function BreakdownTable({ results, loan }) {
                 <td>
                   {new Intl.NumberFormat("tr-TR").format(month[5].toFixed(2))}
                 </td>
-                <td>
-                  {new Intl.NumberFormat("tr-TR").format(month[6].toFixed(2))}₺
-                </td>
-                <td>
-                  ${new Intl.NumberFormat("tr-TR").format(month[7].toFixed(2))}
-                </td>
+                {revenue.include ? (
+                  <td>
+                    {new Intl.NumberFormat("tr-TR").format(month[6].toFixed(2))}
+                    ₺
+                  </td>
+                ) : (
+                  ""
+                )}
+                {revenue.include ? (
+                  <td>
+                    $
+                    {month[7]
+                      ? new Intl.NumberFormat("tr-TR").format(
+                          month[7].toFixed(2)
+                        )
+                      : ""}
+                  </td>
+                ) : (
+                  ""
+                )}
               </tr>
             );
           })}
@@ -82,8 +98,16 @@ function BreakdownTable({ results, loan }) {
             {loan.showPrincipal ? <td className="bg-levi-800">0₺</td> : ""}
             <td className="bg-levi-800">${results.totalPaidEquivalent}</td>
             <td className="bg-levi-800">{results.averageExchangeRate}</td>
-            <td className="bg-levi-800">{results.totalRevenue}₺</td>
-            <td className="bg-levi-800">${results.totalRevenueEquivalent}</td>
+            {revenue.include ? (
+              <td className="bg-levi-800">{results.totalRevenue}₺</td>
+            ) : (
+              ""
+            )}
+            {revenue.include ? (
+              <td className="bg-levi-800">{results.totalRevenueEquivalent}₺</td>
+            ) : (
+              ""
+            )}
           </tr>
         </tbody>
       </table>

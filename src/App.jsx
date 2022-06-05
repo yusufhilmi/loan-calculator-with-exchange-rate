@@ -50,15 +50,17 @@ function App() {
       loan.interestRate / 100,
       loan.term
     );
-    // setResults((prev) => ({ ...prev, monthlyPayment: monthly }));
     const monthlyPayments = [];
+
     let remaining = loan.amount,
       assumedExchangeRate = exchangeRate.current,
       totalPaidEquivalent = 0,
       rev = revenue.base,
       totalRevenue = 0,
       totalRevenueEquivalent = 0;
+
     let interest, principal, exhangeEquivalent, revEquivalent;
+
     for (let i = 0; i < loan.term; i++) {
       interest = remaining * (loan.interestRate / 100);
       principal = monthly - interest;
@@ -128,38 +130,53 @@ function App() {
 
   return (
     <div className="m-2">
-      <h1 className="mb-4 text-center text-xl font-black md:text-3xl xl:text-4xl">
+      <h1 className="mb-4 text-center text-xl font-black md:mb-6 md:text-3xl xl:mb-12 xl:text-4xl">
         Loan Calculator <br />
         <span className="text-lg md:text-2xl xl:text-3xl">
-          with Exchange Rate and Inflation
+          with Exchange Rate for High Inflation
         </span>
       </h1>
-      <div className="mb-12">
-        <h3 className="mb-4 text-center font-barlow text-lg text-levi-400 md:text-xl">
-          How much you actually will pay for a low interest rate loan in{" "}
-          <abbr title="or any other currency losing value against USD">
-            TRY
-          </abbr>{" "}
-          when you’re earning USD.
-        </h3>
-        <CalculatorForm
-          loan={loan}
-          setLoan={setLoan}
-          exchangeRate={exchangeRate}
-          setExchangeRate={setExchangeRate}
-          revenue={revenue}
-          setRevenue={setRevenue}
-          setResults={setResults}
-        ></CalculatorForm>
-        {!results.show ? (
-          <Warnings />
-        ) : (
-          <LoanPaymentSummary
+      <div className="grid md:grid-cols-2 md:gap-9 lg:gap-16">
+        <div className="mx-auto mb-4 max-w-sm md:order-2 md:mx-0 md:my-auto md:justify-self-start">
+          <h3 className="mb-4 text-center font-barlow text-lg font-light text-levi-400 md:text-xl">
+            How much you actually will pay for a low interest rate loan in{" "}
+            <span className="relative">
+              <span className="tooltip underline decoration-dotted underline-offset-1">
+                TRY
+              </span>
+              <span className="tooltip-content">
+                Any other currency losing value against USD
+              </span>
+            </span>{" "}
+            when you’re earning USD.
+          </h3>
+          <CalculatorForm
             loan={loan}
-            results={results}
-          ></LoanPaymentSummary>
-        )}
+            setLoan={setLoan}
+            exchangeRate={exchangeRate}
+            setExchangeRate={setExchangeRate}
+            revenue={revenue}
+            setRevenue={setRevenue}
+            results={setResults}
+            setResults={setResults}
+          ></CalculatorForm>
+          {!results.show ? (
+            <div className="mt-6 md:hidden">
+              <Warnings />
+            </div>
+          ) : (
+            <LoanPaymentSummary
+              loan={loan}
+              results={results}
+            ></LoanPaymentSummary>
+          )}
+        </div>
+
+        <div className="min-w-sm hidden max-w-md justify-self-end md:order-1 md:block">
+          <Warnings />
+        </div>
       </div>
+
       {!results.show ? (
         ""
       ) : (
@@ -170,7 +187,11 @@ function App() {
             revenue={revenue}
             results={results}
           ></LoanSummary>
-          <BreakdownTable results={results} loan={loan}></BreakdownTable>
+          <BreakdownTable
+            results={results}
+            loan={loan}
+            revenue={revenue}
+          ></BreakdownTable>
         </>
       )}
     </div>

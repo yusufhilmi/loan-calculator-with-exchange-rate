@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 
 function CalculatorForm(props) {
-  const handleClick = (e) => {
+  const [showButton, setShowButton] = useState(true);
+  const handleSubmit = (e) => {
     e.preventDefault();
     props.setResults((prev) => ({ ...prev, show: true }));
+    setShowButton(false);
   };
 
   return (
     <form
-      onSubmit={handleClick}
+      onSubmit={handleSubmit}
       className="rounded-xl border-[0.25px] border-levi-600 bg-levi-800 p-6 px-3"
     >
-      <h4 className="mb-4 px-3 text-xl font-black">Assumptions</h4>
+      <h4 className="mb-2 px-3 text-xl font-black">Assumptions</h4>
       <div className="gradient-border mb-4">
         <div className="rounded-lg border-transparent bg-levi-800 p-3">
           <h5 className="mb-1 font-semibold text-levi-300">Exchange Rate</h5>
@@ -34,7 +36,27 @@ function CalculatorForm(props) {
               />
             </label>
             <label htmlFor="exchange-rate-increase">
-              Increase % (mo)
+              <span className="flex justify-between">
+                Increase % (mo)
+                <div className="relative mr-2 inline">
+                  <img
+                    src="/icons/info.svg"
+                    alt=""
+                    className="tooltip  inline"
+                  />
+                  <div className="tooltip-content icon">
+                    This approximates to{" "}
+                    <span className="font-semibold">
+                      %
+                      {(
+                        (1 + props.exchangeRate.increase / 100) ** 12 * 100 -
+                        100
+                      ).toFixed(2)}
+                    </span>{" "}
+                    increase per year.
+                  </div>
+                </div>
+              </span>
               <input
                 type="number"
                 name="exchange-rate-increase"
@@ -51,8 +73,21 @@ function CalculatorForm(props) {
             </label>
           </fieldset>
           <div className="mb-1 flex">
-            <h5 className="mr-3 font-semibold text-levi-300">Revenue</h5>
-            <div className="mb-1 flex h-max justify-evenly gap-x-1 self-end rounded border border-levi-400 bg-levi-900 px-1 py-[1px] font-orb text-[0.5rem] leading-[10px]">
+            <h5 className="mr-3 font-semibold text-levi-300">
+              Revenue
+              <div className="relative inline">
+                <img
+                  src="/icons/info.svg"
+                  alt=""
+                  className="tooltip ml-2 inline"
+                />
+                <div className="tooltip-content icon">
+                  This is the revenue you expect to generate by using this
+                  capital.
+                </div>
+              </div>
+            </h5>
+            <div className="mb-1 flex h-max cursor-pointer justify-evenly gap-x-1 self-end rounded border border-levi-400 bg-levi-900 px-1 py-[1px] font-orb text-[0.5rem] leading-[10px]">
               <span
                 className={
                   props.revenue.include
@@ -196,7 +231,7 @@ function CalculatorForm(props) {
         </fieldset>
         <label
           htmlFor="show-pricipal"
-          className="w-full flex-row items-center justify-between"
+          className="w-full flex-row items-center justify-between text-sm"
         >
           Show principal, and remaining for each month?
           <input
@@ -212,9 +247,13 @@ function CalculatorForm(props) {
             }}
           />
         </label>
-        <button className="mt-6 w-full rounded-md bg-gradient-to-r from-blue-600 via-purple-700 to-fuchsia-600 py-2 text-center font-orb font-extrabold">
-          Calculate
-        </button>
+        {!showButton ? (
+          ""
+        ) : (
+          <button className="mt-6 w-full  rounded-md bg-gradient-to-r from-blue-600 via-purple-700 to-fuchsia-600 py-2 text-center font-orb font-extrabold outline-none transition-colors hover:from-blue-700 hover:via-purple-700 hover:to-fuchsia-700">
+            Calculate
+          </button>
+        )}
       </div>
     </form>
   );
