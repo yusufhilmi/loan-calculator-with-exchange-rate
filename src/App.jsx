@@ -59,7 +59,7 @@ function App() {
           </p>
         </Card>
       </main>
-      <div className="">
+      <div className="mb-12">
         <h3 className="mb-8 text-center font-barlow text-lg text-levi-400 md:text-xl">
           How much you actually will pay for a low interest rate loan in{" "}
           <abbr title="or any other currency losing value against USD">
