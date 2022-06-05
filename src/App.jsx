@@ -1,33 +1,64 @@
 import React from "react";
 import CalculatorForm from "./components/CalculatorForm";
+import Card from "./components/Card";
 
 function App() {
   return (
     <div className="m-2">
-      <h1 className="text-center text-2xl font-extrabold">
+      <h1 className="text-center text-xl font-black md:text-3xl xl:text-4xl">
         Loan Calculator <br />
-        <span>with Exchange Rate and Inflation</span>
+        <span className="text-lg md:text-2xl xl:text-3xl">
+          with Exchange Rate and Inflation
+        </span>
       </h1>
-      <main className="mx-auto mt-4 w-1/3">
-        <p>
-          The rationale behind this calculator is to see if taking out a loan in
-          a high inflation market with low interest rate makes sense. Especially
-          if you take into account that you'll be converting USD to pay monthly
-          installments.
-          <br />
-          Of course it is impossible to know how the future will look like and
-          that's why the default values will be more conservatist. You'll be
-          able to adjust the expected increase in exchange rate and housing
-          market yearly. For example in Turkey the average price per sqft
-          increased %110 between 2021 and 2022. In the last 10 years USDTRY get
-          to 16.30 from 1.80 levels. That is around %800 increase. This
-          calculator is for my personal use and that's why I didn't add any
-          models that predict what USDTRY and the housing market will look like.
-          I open-sourced it for anyone who wants to play around and extend it.
-          Feel free to reach out!
-        </p>
+      <main className="m-4 grid gap-8">
+        <Card
+          title="High Inflation Market"
+          iconPath="/icons/fire.svg"
+          shadowColor="shadow-orange-400/20"
+        >
+          <p>
+            The goal is to see if taking out a loan in a high inflation, low
+            interest rate market makes sense when the base income is more stable
+            like USD. Similar to everything in life,
+            <b>the variables you’ll set in this calculator is a bet</b>. A bet
+            on future. I didn’t add any prediction models because it is hard to
+            predict what’ll happen.
+            <b> Please think thoroughly, and make your own research.</b>
+          </p>
+        </Card>
+        <Card
+          title="Volatile Exchange Rate"
+          iconPath="/icons/red-chart.svg"
+          shadowColor="shadow-red-400/20"
+        >
+          <p>
+            Another downside of high inflation is the volatility and increase in
+            the exchange rate. For Turkey, the USDTRY was trading around 1.80 in
+            2012. In 10 year period it <b>increased %800</b> and it was an
+            exponential growth. That’s why in this calculator the increase in
+            exchange rate is set to <b>monthly</b>. Check the table to see how
+            the exchange rate is gonna look like in the future.
+          </p>
+        </Card>
+        <Card
+          title="Revenue"
+          iconPath="/icons/money.svg"
+          shadowColor="shadow-emerald-400/20"
+        >
+          <p>
+            If you expect to have revenue by using the loan, you can add the
+            <b> monthly base</b> , <b>growth</b>, and <b>growth period</b>. With
+            these three variables it is possible to simulate most types of
+            revenue. For example, for a rental income the growth level is
+            limited to %17 per year in Turkey. If you know what rental market
+            looks like you will be able to calculate your revenue for the period
+            you’ll be paying this loan. Also take into account, due to high
+            inflation there can be a higher growth rate depending on the usage
+            of capital.
+          </p>
+        </Card>
       </main>
-      <CalculatorForm></CalculatorForm>
     </div>
   );
 }
