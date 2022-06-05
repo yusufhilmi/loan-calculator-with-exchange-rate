@@ -200,12 +200,11 @@ function CalculatorForm(props) {
         >
           Show principal, and remaining for each month?
           <input
-            className="ml-2 mt-0 basis-4 appearance-none bg-levi-900 bg-contain text-levi-900 checked:bg-emerald-400"
+            className="ml-2 mt-0 basis-4 appearance-none bg-levi-900 bg-contain text-levi-900 checked:bg-emerald-200"
             type="checkbox"
             name="show-principal"
             id="show-principal"
             onChange={(e) => {
-              console.log(e.target.checked);
               props.setLoan((prev) => ({
                 ...prev,
                 showPrincipal: Number(e.target.checked),

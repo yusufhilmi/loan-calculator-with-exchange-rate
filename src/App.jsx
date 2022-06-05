@@ -72,7 +72,6 @@ function App() {
 
       if (revenue.include) {
         if (i % 12 === 0 && i !== 0) {
-          console.log(i % 12);
           rev = Math.round((rev * (1 + revenue.growth / 100)) / 50) * 50;
         }
         totalRevenue += rev;
@@ -112,7 +111,7 @@ function App() {
       totalRevenueEquivalent: new Intl.NumberFormat("tr-TR").format(
         totalRevenueEquivalent.toFixed(2)
       ),
-      net: new Intl.NumberFormat("tr-TR").format(net.toFixed(2)),
+      net: net,
     }));
   };
 

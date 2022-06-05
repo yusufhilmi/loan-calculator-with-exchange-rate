@@ -31,9 +31,15 @@ function LoanSummary({ loan, exchangeRate, results, revenue }) {
       )}
       <p className="flex gap-3">
         <span className="w-1/2 text-right font-black text-levi-200">Net:</span>
-        <span className="text-lg font-extrabold text-emerald-400">
-          {results.net > 0 ? "+" : "-"}${results.net ? results.net : ""}
-        </span>
+        {results.net > 0 ? (
+          <span className="text-lg font-extrabold text-emerald-400">
+            +${new Intl.NumberFormat("tr-TR").format(results.net.toFixed(2))}
+          </span>
+        ) : (
+          <span className="text-lg font-extrabold text-red-400">
+            -${new Intl.NumberFormat("tr-TR").format(-results.net.toFixed(2))}
+          </span>
+        )}
       </p>
     </div>
   );
