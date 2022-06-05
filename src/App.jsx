@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import CalculatorForm from "./components/CalculatorForm";
 import Card from "./components/Card";
+import LoanPaymentSummary from "./components/LoanPaymentSummary";
+import LoanSummary from "./components/LoanSummary";
+import Warnings from "./components/Warnings";
 
 function App() {
   const [loan, setLoan] = useState({
@@ -104,7 +107,10 @@ function App() {
           setRevenue={setRevenue}
           setResults={setResults}
         ></CalculatorForm>
+        <LoanPaymentSummary></LoanPaymentSummary>
       </div>
+
+      <LoanSummary></LoanSummary>
     </div>
   );
 }
