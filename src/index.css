@@ -33,5 +33,5 @@ b {
 }
 
 .gradient-border {
-  @apply rounded-lg bg-gradient-to-b from-orange-300 to-red-300 bg-origin-border p-[0.5px];
+  @apply rounded-lg bg-gradient-to-b from-orange-300 to-red-300 bg-origin-border p-[1px];
 }

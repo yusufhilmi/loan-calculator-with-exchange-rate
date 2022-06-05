@@ -1,6 +1,6 @@
 import React from "react";
 
-function CalculatorForm(exchangeRate, setExchangeRate) {
+function CalculatorForm(props) {
   return (
     <form className="rounded-xl border-[0.25px] border-levi-600 bg-levi-800 p-6 px-3">
       <h4 className="mb-4 px-3 text-xl font-black">Assumptions</h4>
@@ -14,11 +14,15 @@ function CalculatorForm(exchangeRate, setExchangeRate) {
                 type="number"
                 name="exchange-rate-price"
                 id="exchange-rate-price"
+                min={0}
                 step={0.01}
-                // value={exchangeRate}
-                // onChange={(e) => {
-                //   setExchangeRate(Number(e.target.value));
-                // }}
+                value={props.exchangeRate.current}
+                onChange={(e) => {
+                  props.setExchangeRate((prev) => ({
+                    ...prev,
+                    current: Number(e.target.value),
+                  }));
+                }}
               />
             </label>
             <label htmlFor="exchange-rate-increase">
@@ -27,66 +31,107 @@ function CalculatorForm(exchangeRate, setExchangeRate) {
                 type="number"
                 name="exchange-rate-increase"
                 id="exchange-rate-increase"
-                step={0.01}
-                // value={exchangeRate}
-                // onChange={(e) => {
-                //   setExchangeRate(Number(e.target.value));
-                // }}
+                step={1.4}
+                value={props.exchangeRate.increase}
+                onChange={(e) => {
+                  props.setExchangeRate((prev) => ({
+                    ...prev,
+                    increase: Number(e.target.value),
+                  }));
+                }}
               />
             </label>
           </fieldset>
           <div className="mb-1 flex">
             <h5 className="mr-3 font-semibold text-levi-300">Revenue</h5>
             <div className="mb-1 flex h-max justify-evenly gap-x-1 self-end rounded border border-levi-400 bg-levi-900 px-1 py-[1px] font-orb text-[0.5rem] leading-[10px]">
-              <span className="font-semibold">Yes</span>
+              <span
+                className={
+                  props.revenue.include
+                    ? "font-semibold"
+                    : "font-light text-levi-400"
+                }
+                onClick={(e) => {
+                  props.setRevenue((prev) => ({ ...prev, include: true }));
+                }}
+              >
+                Yes
+              </span>
               <div className="h-[calc(100% + 0.25rem)] my-[-1px] w-[1px] bg-levi-400"></div>
-              <span className="font-light text-levi-400">No</span>
+              <span
+                className={
+                  props.revenue.include
+                    ? "font-light text-levi-400"
+                    : "font-semibold"
+                }
+                onClick={(e) => {
+                  props.setRevenue((prev) => ({ ...prev, include: false }));
+                }}
+              >
+                No
+              </span>
             </div>
           </div>
-          <fieldset className="flex justify-between">
-            <label htmlFor="revenue-monthly" className="mr-4">
-              Monthly
-              <input
-                type="number"
-                name="revenue-monthly"
-                id="revenue-monthly"
-                step={100}
-                // value={exchangeRate}
-                // onChange={(e) => {
-                //   setExchangeRate(Number(e.target.value));
-                // }}
-              />
-            </label>
-            <label
-              htmlFor="revenue-growth-period"
-              className="mr-4 basis-[15rem]"
-            >
-              Growth Period (mo)
-              <input
-                type="number"
-                name="revenue-growth-period"
-                id="revenue-growth-period"
-                step={100}
-                // value={exchangeRate}
-                // onChange={(e) => {
-                //   setExchangeRate(Number(e.target.value));
-                // }}
-              />
-            </label>
-            <label htmlFor="revenue-growth-rate" className="basis-32">
-              Growth %
-              <input
-                type="number"
-                name="revenue-growth-rate"
-                id="revenue-growth-rate"
-                step={0.01}
-                // value={exchangeRate}
-                // onChange={(e) => {
-                //   setExchangeRate(Number(e.target.value));
-                // }}
-              />
-            </label>
-          </fieldset>
+          {props.revenue.include ? (
+            <fieldset className="flex justify-between">
+              <label htmlFor="revenue-monthly" className="mr-4">
+                Monthly
+                <input
+                  type="number"
+                  name="revenue-monthly"
+                  id="revenue-monthly"
+                  min={0}
+                  step={1}
+                  value={props.revenue.base}
+                  onChange={(e) => {
+                    props.setRevenue((prev) => ({
+                      ...prev,
+                      base: Number(e.target.value),
+                    }));
+                  }}
+                />
+              </label>
+              <label
+                htmlFor="revenue-growth-period"
+                className="mr-4 basis-[15rem]"
+              >
+                Growth Period (mo)
+                <input
+                  type="number"
+                  name="revenue-growth-period"
+                  id="revenue-growth-period"
+                  min={1}
+                  step={1}
+                  value={props.revenue.growthPeriod}
+                  onChange={(e) => {
+                    props.setRevenue((prev) => ({
+                      ...prev,
+                      growthPeriod: Number(e.target.value),
+                    }));
+                  }}
+                />
+              </label>
+              <label htmlFor="revenue-growth-rate" className="basis-32">
+                Growth %
+                <input
+                  type="number"
+                  name="revenue-growth-rate"
+                  id="revenue-growth-rate"
+                  min={0}
+                  step={1}
+                  value={props.revenue.growth}
+                  onChange={(e) => {
+                    props.setRevenue((prev) => ({
+                      ...prev,
+                      growth: Number(e.target.value),
+                    }));
+                  }}
+                />
+              </label>
+            </fieldset>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <h4 className="mb-2 px-3 text-xl font-black">Loan</h4>
@@ -98,11 +143,14 @@ function CalculatorForm(exchangeRate, setExchangeRate) {
               type="number"
               name="loan-amount"
               id="loan-amount"
-              step={100}
-              // value={exchangeRate}
-              // onChange={(e) => {
-              //   setExchangeRate(Number(e.target.value));
-              // }}
+              step={10000}
+              value={props.loan.amount}
+              onChange={(e) => {
+                props.setLoan((prev) => ({
+                  ...prev,
+                  amount: Number(e.target.value),
+                }));
+              }}
             />
           </label>
           <label htmlFor="loan-interest-rate" className="mr-4 basis-40">
@@ -112,10 +160,13 @@ function CalculatorForm(exchangeRate, setExchangeRate) {
               name="loan-interest-rate"
               id="loan-interest-rate"
               step={0.01}
-              // value={exchangeRate}
-              // onChange={(e) => {
-              //   setExchangeRate(Number(e.target.value));
-              // }}
+              value={props.loan.interestRate}
+              onChange={(e) => {
+                props.setLoan((prev) => ({
+                  ...prev,
+                  interestRate: Number(e.target.value),
+                }));
+              }}
             />
           </label>
           <label htmlFor="loan-term" className="basis-28">
@@ -125,10 +176,13 @@ function CalculatorForm(exchangeRate, setExchangeRate) {
               name="loan-term"
               id="loan-term"
               step={0.01}
-              // value={exchangeRate}
-              // onChange={(e) => {
-              //   setExchangeRate(Number(e.target.value));
-              // }}
+              value={props.loan.term}
+              onChange={(e) => {
+                props.setLoan((prev) => ({
+                  ...prev,
+                  term: Number(e.target.value),
+                }));
+              }}
             />
           </label>
         </fieldset>
@@ -142,13 +196,18 @@ function CalculatorForm(exchangeRate, setExchangeRate) {
             type="checkbox"
             name="show-principal"
             id="show-principal"
+            onChange={(e) => {
+              console.log(e.target.checked);
+              props.setLoan((prev) => ({
+                ...prev,
+                showPrincipal: Number(e.target.checked),
+              }));
+            }}
           />
         </label>
-        <input
-          type="submit"
-          value="Calculate"
-          className="mt-6 w-full bg-gradient-to-r from-blue-600 via-purple-700 to-fuchsia-600 py-2 text-center font-orb font-extrabold"
-        />
+        <button className="mt-6 w-full rounded-md bg-gradient-to-r from-blue-600 via-purple-700 to-fuchsia-600 py-2 text-center font-orb font-extrabold">
+          Calculate
+        </button>
       </div>
     </form>
   );
