@@ -16,28 +16,6 @@ function Share({ loan, exchangeRate, revenue, setResults }) {
     );
   };
 
-  const constructSharingURL = () => {
-    const url = new URL(window.location);
-
-    const params = {
-      amount: loan.amount,
-      interestRate: loan.interestRate,
-      term: loan.term,
-      principal: loan.showPrincipal,
-      exchangeRate: exchangeRate.current,
-      increase: exchangeRate.increase,
-    };
-    if (revenue.include) {
-      Object.assign(params, {
-        revenue: revenue.base,
-        growth: revenue.growth,
-        period: revenue.period,
-      });
-    }
-    url.search = new URLSearchParams(params);
-    return url;
-  };
-
   const shareOnTwitter = (href) => {
     const searchParams = new URLSearchParams();
 
@@ -51,6 +29,27 @@ function Share({ loan, exchangeRate, revenue, setResults }) {
   };
 
   useEffect(() => {
+    const constructSharingURL = () => {
+      const url = new URL(window.location);
+
+      const params = {
+        amount: loan.amount,
+        interestRate: loan.interestRate,
+        term: loan.term,
+        principal: loan.showPrincipal,
+        exchangeRate: exchangeRate.current,
+        increase: exchangeRate.increase,
+      };
+      if (revenue.include) {
+        Object.assign(params, {
+          revenue: revenue.base,
+          growth: revenue.growth,
+          period: revenue.period,
+        });
+      }
+      url.search = new URLSearchParams(params);
+      return url;
+    };
     const href = constructSharingURL();
     setUrl(href);
     if (href) {
