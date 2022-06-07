@@ -45,87 +45,88 @@ function App() {
     );
   };
 
-  const calculateLoan = () => {
-    let monthly = calculateMonthly(
-      loan.amount,
-      loan.interestRate / 100,
-      loan.term
-    );
-    const monthlyPayments = [];
-
-    let remaining = loan.amount,
-      assumedExchangeRate = exchangeRate.current,
-      totalPaidEquivalent = 0,
-      rev = revenue.base,
-      totalRevenue = 0,
-      totalRevenueEquivalent = 0;
-
-    let interest, principal, exhangeEquivalent, revEquivalent;
-
-    for (let i = 0; i < loan.term; i++) {
-      interest = remaining * (loan.interestRate / 100);
-      principal = monthly - interest;
-      remaining = remaining - principal;
-      // handle rounding error, reduce precision when there is time instead
-      if (remaining < 0) {
-        remaining = 0;
-      }
-      exhangeEquivalent = monthly / assumedExchangeRate;
-      assumedExchangeRate *= 1 + exchangeRate.increase / 100;
-      totalPaidEquivalent += exhangeEquivalent;
-
-      if (revenue.include) {
-        if (i % 12 === 0 && i !== 0) {
-          rev = Math.round((rev * (1 + revenue.growth / 100)) / 50) * 50;
-        }
-        totalRevenue += rev;
-        revEquivalent = rev / assumedExchangeRate;
-        totalRevenueEquivalent += revEquivalent;
-      }
-
-      monthlyPayments.push([
-        monthly,
-        interest,
-        principal,
-        remaining,
-        exhangeEquivalent,
-        assumedExchangeRate,
-        rev,
-        revEquivalent,
-      ]);
-    }
-
-    const net =
-      loan.amount / exchangeRate.current -
-      totalPaidEquivalent +
-      totalRevenueEquivalent;
-    setResults((prev) => ({
-      ...prev,
-      monthlyPayment: new Intl.NumberFormat("tr-TR").format(monthly.toFixed(2)),
-      monthsBreakdown: monthlyPayments,
-      totalPaid: new Intl.NumberFormat("tr-TR").format(
-        (monthly * loan.term).toFixed(2)
-      ),
-      totalInterest: new Intl.NumberFormat("tr-TR").format(
-        (monthly * loan.term - loan.amount).toFixed(2)
-      ),
-      averageExchangeRate: new Intl.NumberFormat("tr-TR").format(
-        ((monthly * loan.term) / totalPaidEquivalent).toFixed(2)
-      ),
-      totalPaidEquivalent: new Intl.NumberFormat("tr-TR").format(
-        totalPaidEquivalent.toFixed(2)
-      ),
-      totalRevenue: new Intl.NumberFormat("tr-TR").format(
-        totalRevenue.toFixed(2)
-      ),
-      totalRevenueEquivalent: new Intl.NumberFormat("tr-TR").format(
-        totalRevenueEquivalent.toFixed(2)
-      ),
-      net: net,
-    }));
-  };
-
   useEffect(() => {
+    const calculateLoan = () => {
+      let monthly = calculateMonthly(
+        loan.amount,
+        loan.interestRate / 100,
+        loan.term
+      );
+      const monthlyPayments = [];
+
+      let remaining = loan.amount,
+        assumedExchangeRate = exchangeRate.current,
+        totalPaidEquivalent = 0,
+        rev = revenue.base,
+        totalRevenue = 0,
+        totalRevenueEquivalent = 0;
+
+      let interest, principal, exhangeEquivalent, revEquivalent;
+
+      for (let i = 0; i < loan.term; i++) {
+        interest = remaining * (loan.interestRate / 100);
+        principal = monthly - interest;
+        remaining = remaining - principal;
+        // handle rounding error, reduce precision when there is time instead
+        if (remaining < 0) {
+          remaining = 0;
+        }
+        exhangeEquivalent = monthly / assumedExchangeRate;
+        assumedExchangeRate *= 1 + exchangeRate.increase / 100;
+        totalPaidEquivalent += exhangeEquivalent;
+
+        if (revenue.include) {
+          if (i % 12 === 0 && i !== 0) {
+            rev = Math.round((rev * (1 + revenue.growth / 100)) / 50) * 50;
+          }
+          totalRevenue += rev;
+          revEquivalent = rev / assumedExchangeRate;
+          totalRevenueEquivalent += revEquivalent;
+        }
+
+        monthlyPayments.push([
+          monthly,
+          interest,
+          principal,
+          remaining,
+          exhangeEquivalent,
+          assumedExchangeRate,
+          rev,
+          revEquivalent,
+        ]);
+      }
+
+      const net =
+        loan.amount / exchangeRate.current -
+        totalPaidEquivalent +
+        totalRevenueEquivalent;
+      setResults((prev) => ({
+        ...prev,
+        monthlyPayment: new Intl.NumberFormat("tr-TR").format(
+          monthly.toFixed(2)
+        ),
+        monthsBreakdown: monthlyPayments,
+        totalPaid: new Intl.NumberFormat("tr-TR").format(
+          (monthly * loan.term).toFixed(2)
+        ),
+        totalInterest: new Intl.NumberFormat("tr-TR").format(
+          (monthly * loan.term - loan.amount).toFixed(2)
+        ),
+        averageExchangeRate: new Intl.NumberFormat("tr-TR").format(
+          ((monthly * loan.term) / totalPaidEquivalent).toFixed(2)
+        ),
+        totalPaidEquivalent: new Intl.NumberFormat("tr-TR").format(
+          totalPaidEquivalent.toFixed(2)
+        ),
+        totalRevenue: new Intl.NumberFormat("tr-TR").format(
+          totalRevenue.toFixed(2)
+        ),
+        totalRevenueEquivalent: new Intl.NumberFormat("tr-TR").format(
+          totalRevenueEquivalent.toFixed(2)
+        ),
+        net: net,
+      }));
+    };
     calculateLoan();
   }, [loan, revenue, exchangeRate]);
 
@@ -254,7 +255,7 @@ function App() {
         <br />
         <span className="text-xs">© 2022</span>
         <a
-          className="fixed right-0 bottom-0 m-3 w-max  rounded-md bg-[#fedd00] p-2 font-medium text-levi-900"
+          className="fixed right-0 bottom-0 m-3 w-max  rounded-md bg-[#fedd00] p-2 font-medium text-levi-900 transition duration-200 ease-in-out hover:bg-[#e5cd31]"
           href="https://www.buymeacoffee.com/yusufhilmi"
         >
           <img
