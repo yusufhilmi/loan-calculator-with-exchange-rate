@@ -79,11 +79,15 @@ function Share({ loan, exchangeRate, revenue, setResults }) {
         className="flex w-max cursor-pointer items-center rounded-lg border-[0.5px] border-levi-500 bg-levi-800 p-2 font-orb text-sm font-light font-light hover:bg-levi-700"
         onClick={handleClick}
       >
-        <img
-          src="/icons/link.svg"
-          alt=""
-          className="mr-1.5 inline-block h-4 w-4 transition duration-300"
-        />
+        {!isCopied ? (
+          <img
+            src="/icons/link.svg"
+            alt=""
+            className="mr-1.5 inline-block h-4 w-4 transition duration-300"
+          />
+        ) : (
+          ""
+        )}
         {isCopied ? "Copied to clipboard" : "Copy link"}
       </div>
     </div>

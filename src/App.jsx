@@ -173,7 +173,7 @@ function App() {
 
   return (
     <div className="m-2">
-      <h1 className="mb-4 text-center text-xl font-black md:mb-6 md:text-3xl xl:mb-12 xl:text-4xl">
+      <h1 className="my-4 text-center text-xl font-black md:mb-6 md:text-3xl xl:mb-12 xl:text-4xl">
         Loan Calculator <br />
         <span className="text-lg md:text-2xl xl:text-3xl">
           with Exchange Rate
@@ -204,7 +204,7 @@ function App() {
             setResults={setResults}
           ></CalculatorForm>
           {!results.show ? (
-            <div className="mt-6 md:hidden">
+            <div className="mt-8 md:hidden">
               <Warnings />
             </div>
           ) : (
@@ -243,6 +243,27 @@ function App() {
           ></BreakdownTable>
         </>
       )}
+      <footer className="mt-8 mb-4 text-center text-sm">
+        Created by{" "}
+        <a
+          href="https://twitter.com/yusufhilmi_"
+          className="font-medium underline decoration-dotted"
+        >
+          Yusuf Hilmi
+        </a>
+        <br />
+        <span className="text-xs">© 2022</span>
+        <a
+          className="fixed right-0 bottom-0 m-3 w-max  rounded-md bg-[#fedd00] p-2 font-medium text-levi-900"
+          href="https://www.buymeacoffee.com/yusufhilmi"
+        >
+          <img
+            src="/icons/coffee.svg"
+            alt=""
+            className="inline-block h-5 w-5"
+          />
+        </a>
+      </footer>
     </div>
   );
 }
