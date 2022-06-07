@@ -33,7 +33,7 @@ b {
 }
 
 .gradient-border {
-  @apply rounded-lg bg-gradient-to-b from-cyan-300 via-violet-300 to-fuchsia-300 bg-origin-border p-[1px];
+  @apply rounded-lg bg-gradient-to-b from-cyan-300 via-violet-300 to-fuchsia-300 bg-origin-border p-[1px] md:m-0;
 }
 
 thead {
