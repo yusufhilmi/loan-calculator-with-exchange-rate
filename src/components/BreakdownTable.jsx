@@ -11,7 +11,7 @@ function BreakdownTable({ results, loan, revenue }) {
             {loan.showPrincipal ? <th>Interest</th> : ""}
             {loan.showPrincipal ? <th>Principal</th> : ""}
             {loan.showPrincipal ? <th>Remaining</th> : ""}
-            <th>$</th>
+            <th>{loan.showPrincipal ? "Payment $" : "$"}</th>
             <th className="tracking-tighter">USD / TRY</th>
             {revenue.include ? <th>Revenue</th> : ""}
             {revenue.include ? <th>$</th> : ""}

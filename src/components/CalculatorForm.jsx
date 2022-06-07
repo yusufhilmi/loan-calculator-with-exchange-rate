@@ -145,11 +145,11 @@ function CalculatorForm(props) {
                   id="revenue-growth-period"
                   min={1}
                   step={1}
-                  value={props.revenue.growthPeriod}
+                  value={props.revenue.period}
                   onChange={(e) => {
                     props.setRevenue((prev) => ({
                       ...prev,
-                      growthPeriod: Number(e.target.value),
+                      period: Number(e.target.value),
                     }));
                   }}
                 />
@@ -242,9 +242,10 @@ function CalculatorForm(props) {
             onChange={(e) => {
               props.setLoan((prev) => ({
                 ...prev,
-                showPrincipal: Number(e.target.checked),
+                showPrincipal: Boolean(e.target.checked),
               }));
             }}
+            checked={props.loan.showPrincipal}
           />
         </label>
         {!showButton ? (

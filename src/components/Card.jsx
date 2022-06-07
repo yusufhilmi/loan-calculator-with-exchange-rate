@@ -8,7 +8,7 @@ function Card({
 }) {
   return (
     <div
-      className={`rounded-xl border-[0.25px] border-levi-600 bg-levi-800 p-6 text-sm shadow-[0px_0px_10px_0px] ${shadowColor}`}
+      className={`rounded-xl border-[0.25px] border-levi-600 bg-levi-900 p-6 text-sm shadow-[0px_0px_10px_0px] ${shadowColor}`}
     >
       <div className="mb-1 flex items-center md:text-base">
         <span>

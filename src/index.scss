@@ -12,7 +12,7 @@ label {
 }
 
 input {
-  @apply mt-1 w-full rounded-md bg-levi-900 p-2 text-right font-light text-levi-300 outline-none focus:ring-1 focus-visible:ring-fuchsia-400;
+  @apply mt-1 w-full rounded-md bg-levi-900 p-2 text-right font-light text-levi-300 outline-none focus:ring-1 focus-visible:ring-fuchsia-300;
 }
 
 h1,
@@ -33,7 +33,7 @@ b {
 }
 
 .gradient-border {
-  @apply rounded-lg bg-gradient-to-b from-orange-300 to-red-300 bg-origin-border p-[1px];
+  @apply rounded-lg bg-gradient-to-b from-cyan-300 via-violet-300 to-fuchsia-300 bg-origin-border p-[1px];
 }
 
 thead {
