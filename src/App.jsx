@@ -3,6 +3,7 @@ import BreakdownTable from "./components/BreakdownTable";
 import CalculatorForm from "./components/CalculatorForm";
 import LoanPaymentSummary from "./components/LoanPaymentSummary";
 import LoanSummary from "./components/LoanSummary";
+import Share from "./components/Share";
 import Warnings from "./components/Warnings";
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
     include: true,
     base: Math.round(loan.amount / 240 / 50) * 50,
     growth: 17,
-    growthPeriod: 12,
+    period: 12,
   });
 
   const [results, setResults] = useState({
@@ -128,12 +129,54 @@ function App() {
     calculateLoan();
   }, [loan, revenue, exchangeRate]);
 
+  const getStateFromURL = () => {
+    const url = new URL(window.location);
+    const loan = {
+      amount: Number(url.searchParams.get("amount")),
+      interestRate: Number(url.searchParams.get("interestRate")),
+      term: Number(url.searchParams.get("term")),
+      showPrincipal:
+        url.searchParams.get("principal") === "true" ? true : false,
+    };
+    if (loan.amount) {
+      const exchangeRate = {
+        current: Number(url.searchParams.get("exchangeRate")),
+        increase: Number(url.searchParams.get("increase")),
+      };
+      console.log(loan);
+      setLoan(loan);
+      setExchangeRate(exchangeRate);
+
+      if (url.searchParams.get("revenue")) {
+        const revenue = {
+          include: true,
+          base: Number(url.searchParams.get("revenue")),
+          growth: Number(url.searchParams.get("growth")),
+          period: Number(url.searchParams.get("period")),
+        };
+        setRevenue(revenue);
+      } else {
+        setRevenue((prev) => ({
+          ...prev,
+          include: false,
+        }));
+      }
+
+      // TODO: notify user, say welcome and let them know what they're looking at
+      setResults((prev) => ({ ...prev, show: true }));
+    }
+  };
+
+  useEffect(() => {
+    getStateFromURL();
+  }, []);
+
   return (
     <div className="m-2">
       <h1 className="mb-4 text-center text-xl font-black md:mb-6 md:text-3xl xl:mb-12 xl:text-4xl">
         Loan Calculator <br />
         <span className="text-lg md:text-2xl xl:text-3xl">
-          with Exchange Rate for High Inflation
+          with Exchange Rate
         </span>
       </h1>
       <div className="grid md:grid-cols-2 md:gap-9 lg:gap-16">
@@ -145,7 +188,8 @@ function App() {
                 TRY
               </span>
               <span className="tooltip-content">
-                Any other currency losing value against USD
+                Applicable to any other currency rapidly losing value against
+                USD
               </span>
             </span>{" "}
             when you’re earning USD.
@@ -157,7 +201,6 @@ function App() {
             setExchangeRate={setExchangeRate}
             revenue={revenue}
             setRevenue={setRevenue}
-            results={setResults}
             setResults={setResults}
           ></CalculatorForm>
           {!results.show ? (
@@ -187,6 +230,12 @@ function App() {
             revenue={revenue}
             results={results}
           ></LoanSummary>
+          <Share
+            loan={loan}
+            exchangeRate={exchangeRate}
+            revenue={revenue}
+            setResults={setResults}
+          ></Share>
           <BreakdownTable
             results={results}
             loan={loan}
