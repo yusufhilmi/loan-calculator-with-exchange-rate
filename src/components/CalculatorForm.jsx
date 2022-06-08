@@ -61,7 +61,7 @@ function CalculatorForm(props) {
                 type="number"
                 name="exchange-rate-increase"
                 id="exchange-rate-increase"
-                step={1.4}
+                step={0.01}
                 value={props.exchangeRate.increase}
                 onChange={(e) => {
                   props.setExchangeRate((prev) => ({
