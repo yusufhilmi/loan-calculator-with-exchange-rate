@@ -13,10 +13,10 @@ function CalculatorForm(props) {
       onSubmit={handleSubmit}
       className="rounded-xl border-[0.25px] border-levi-600 bg-levi-800 p-6 px-3"
     >
-      <h4 className="mb-2 px-3 text-xl font-black">Assumptions</h4>
+      <h3 className="mb-2 px-3 text-xl font-black">Assumptions</h3>
       <div className="gradient-border mb-4">
         <div className="rounded-lg border-transparent bg-levi-800 p-3">
-          <h5 className="mb-1 font-semibold text-levi-300">Exchange Rate</h5>
+          <h4 className="mb-1 font-semibold text-levi-300">Exchange Rate</h4>
           <fieldset className="mb-4 flex justify-between">
             <label htmlFor="exchange-rate-price" className="mr-4">
               Current
@@ -75,7 +75,7 @@ function CalculatorForm(props) {
             </label>
           </fieldset>
           <div className="mb-1 flex">
-            <h5 className="mr-3 font-semibold text-levi-300">
+            <h4 className="mr-3 font-semibold text-levi-300">
               Revenue
               <div className="relative inline">
                 <img
@@ -90,7 +90,7 @@ function CalculatorForm(props) {
                   capital.
                 </div>
               </div>
-            </h5>
+            </h4>
             <div className="mb-1 flex h-max cursor-pointer justify-evenly gap-x-1 self-end rounded border border-levi-400 bg-levi-900 px-1 py-[1px] font-orb text-[0.5rem] leading-[10px]">
               <span
                 className={

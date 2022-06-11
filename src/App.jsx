@@ -15,7 +15,7 @@ function App() {
   });
 
   const [exchangeRate, setExchangeRate] = useState({
-    current: 16.4,
+    current: 17.1,
     increase: 1.7,
   });
 
@@ -182,7 +182,7 @@ function App() {
       </h1>
       <div className="grid md:grid-cols-2 md:gap-9 lg:gap-16">
         <div className="mx-auto mb-4 max-w-sm md:order-2 md:mx-0 md:my-auto md:justify-self-start">
-          <h3 className="mb-4 text-center font-barlow text-lg font-light text-levi-400 md:text-xl">
+          <h2 className="mb-4 text-center font-barlow text-lg font-light text-levi-400 md:text-xl">
             How much you actually will pay for a low interest rate loan in{" "}
             <span className="relative">
               <span className="tooltip underline decoration-dotted underline-offset-1">
@@ -194,7 +194,7 @@ function App() {
               </span>
             </span>{" "}
             when you’re earning USD.
-          </h3>
+          </h2>
           <CalculatorForm
             loan={loan}
             setLoan={setLoan}
