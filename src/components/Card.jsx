@@ -12,7 +12,7 @@ function Card({
     >
       <div className="mb-1 flex items-center md:text-base">
         <span>
-          <img src={iconPath} alt="" />
+          <img src={iconPath} alt="" width="24" height="24" />
         </span>
         <h2 className="ml-2 font-bold">{title}</h2>
       </div>

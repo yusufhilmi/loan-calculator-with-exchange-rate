@@ -42,6 +42,8 @@ function CalculatorForm(props) {
                   <img
                     src="/icons/info.svg"
                     alt=""
+                    width="12"
+                    height="12"
                     className="tooltip  inline"
                   />
                   <div className="tooltip-content icon">
@@ -79,6 +81,8 @@ function CalculatorForm(props) {
                 <img
                   src="/icons/info.svg"
                   alt=""
+                  width="12"
+                  height="12"
                   className="tooltip ml-2 inline"
                 />
                 <div className="tooltip-content icon">
@@ -177,7 +181,7 @@ function CalculatorForm(props) {
           )}
         </div>
       </div>
-      <h4 className="mb-2 px-3 text-xl font-black">Loan</h4>
+      <h4 className="mb-2 mt-2 px-3 text-xl font-black">Loan</h4>
       <div className="px-3">
         <fieldset className="mb-2 flex justify-between">
           <label htmlFor="loan-amount" className="mr-4">
