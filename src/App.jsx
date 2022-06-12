@@ -257,10 +257,11 @@ function App() {
         <a
           className="fixed right-0 bottom-0 m-3 w-max  rounded-md bg-[#fedd00] p-2 font-medium text-levi-900 transition duration-200 ease-in-out hover:bg-[#e5cd31]"
           href="https://www.buymeacoffee.com/yusufhilmi"
+          alt="Support the maker by buying a coffee."
         >
           <img
             src="/icons/coffee.svg"
-            alt=""
+            alt="buy me a coffee icon"
             className="inline-block h-5 w-5"
           />
         </a>
