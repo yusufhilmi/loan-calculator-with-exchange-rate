@@ -28,7 +28,7 @@ function CalculatorForm(props) {
                 id="exchange-rate-price"
                 min={0}
                 step={0.01}
-                value={props.exchangeRate.current}
+                placeholder={props.exchangeRate.current}
                 onChange={(e) => {
                   props.setExchangeRate((prev) => ({
                     ...prev,
@@ -66,7 +66,7 @@ function CalculatorForm(props) {
                 name="exchange-rate-increase"
                 id="exchange-rate-increase"
                 step={0.01}
-                value={props.exchangeRate.increase}
+                placeholder={props.exchangeRate.increase}
                 onChange={(e) => {
                   props.setExchangeRate((prev) => ({
                     ...prev,
@@ -131,7 +131,7 @@ function CalculatorForm(props) {
                   id="revenue-monthly"
                   min={0}
                   step={1}
-                  value={props.revenue.base}
+                  placeholder={props.revenue.base}
                   onChange={(e) => {
                     props.setRevenue((prev) => ({
                       ...prev,
@@ -151,7 +151,7 @@ function CalculatorForm(props) {
                   id="revenue-growth-period"
                   min={1}
                   step={1}
-                  value={props.revenue.period}
+                  placeholder={props.revenue.period}
                   onChange={(e) => {
                     props.setRevenue((prev) => ({
                       ...prev,
@@ -168,7 +168,7 @@ function CalculatorForm(props) {
                   id="revenue-growth-rate"
                   min={0}
                   step={1}
-                  value={props.revenue.growth}
+                  placeholder={props.revenue.growth}
                   onChange={(e) => {
                     props.setRevenue((prev) => ({
                       ...prev,
@@ -193,7 +193,7 @@ function CalculatorForm(props) {
               name="loan-amount"
               id="loan-amount"
               step={10000}
-              value={props.loan.amount}
+              placeholder={props.loan.amount}
               onChange={(e) => {
                 props.setLoan((prev) => ({
                   ...prev,
@@ -209,7 +209,7 @@ function CalculatorForm(props) {
               name="loan-interest-rate"
               id="loan-interest-rate"
               step={0.01}
-              value={props.loan.interestRate}
+              placeholder={props.loan.interestRate}
               onChange={(e) => {
                 props.setLoan((prev) => ({
                   ...prev,
@@ -225,7 +225,7 @@ function CalculatorForm(props) {
               name="loan-term"
               id="loan-term"
               step={0.01}
-              value={props.loan.term}
+              placeholder={props.loan.term}
               onChange={(e) => {
                 props.setLoan((prev) => ({
                   ...prev,
