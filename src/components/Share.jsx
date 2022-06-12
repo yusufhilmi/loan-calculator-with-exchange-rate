@@ -19,6 +19,7 @@ function Share({ loan, exchangeRate, revenue, setResults }) {
   const shareOnTwitter = (href) => {
     const searchParams = new URLSearchParams();
 
+    // construct the share url
     searchParams.append("url", href);
     searchParams.append("via", "yusufhilmi");
     searchParams.append(

@@ -14,11 +14,14 @@ function App() {
     showPrincipal: false,
   });
 
+  // not using any apis to give control to users, even though initial use case is for TRY some others will also be able to use it.
   const [exchangeRate, setExchangeRate] = useState({
     current: 17.1,
     increase: 1.7,
   });
 
+  // base is monthly, there is a rough calculation to estimate a months rent assuming 100% ROI is 20 years.
+  // period is the period of growth, added to simulate other types of income.
   const [revenue, setRevenue] = useState({
     include: true,
     base: Math.round(loan.amount / 240 / 50) * 50,
@@ -26,6 +29,7 @@ function App() {
     period: 12,
   });
 
+  // it is a bit silly to keep all of the results here and it would be helpful to breakdown but it works
   const [results, setResults] = useState({
     show: false,
     monthsBreakdown: null,
@@ -52,6 +56,8 @@ function App() {
         loan.interestRate / 100,
         loan.term
       );
+
+      // array of breakdown for each month for the loan term.
       const monthlyPayments = [];
 
       let remaining = loan.amount,
@@ -71,12 +77,16 @@ function App() {
         if (remaining < 0) {
           remaining = 0;
         }
+
+        // get the USD equivalent for each month
         exhangeEquivalent = monthly / assumedExchangeRate;
         assumedExchangeRate *= 1 + exchangeRate.increase / 100;
+        // sum it up as well
         totalPaidEquivalent += exhangeEquivalent;
 
         if (revenue.include) {
           if (i % 12 === 0 && i !== 0) {
+            // round to nearest 50, keep things simple
             rev = Math.round((rev * (1 + revenue.growth / 100)) / 50) * 50;
           }
           totalRevenue += rev;
@@ -84,6 +94,7 @@ function App() {
           totalRevenueEquivalent += revEquivalent;
         }
 
+        // push it to array
         monthlyPayments.push([
           monthly,
           interest,
@@ -96,10 +107,13 @@ function App() {
         ]);
       }
 
+      // get net loss or profit
       const net =
         loan.amount / exchangeRate.current -
         totalPaidEquivalent +
         totalRevenueEquivalent;
+
+      // set results, and format numbers
       setResults((prev) => ({
         ...prev,
         monthlyPayment: new Intl.NumberFormat("tr-TR").format(
@@ -130,6 +144,7 @@ function App() {
     calculateLoan();
   }, [loan, revenue, exchangeRate]);
 
+  // if a link is shared data will be inside url params, get it
   const getStateFromURL = () => {
     const url = new URL(window.location);
     const loan = {
@@ -144,10 +159,11 @@ function App() {
         current: Number(url.searchParams.get("exchangeRate")),
         increase: Number(url.searchParams.get("increase")),
       };
-      console.log(loan);
+      // console.log(loan);
       setLoan(loan);
       setExchangeRate(exchangeRate);
 
+      // get rev data only if it was included
       if (url.searchParams.get("revenue")) {
         const revenue = {
           include: true,

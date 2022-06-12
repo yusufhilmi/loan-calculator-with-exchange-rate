@@ -1,6 +1,13 @@
 import React from "react";
 
 function BreakdownTable({ results, loan, revenue }) {
+  /*
+Table structure
+  | Month # | Payment TRY | Interest* | Principal* | Remaining* | Payment $ | Revenue* | Revenue $ |
+
+  Last row sums it up
+*/
+
   return (
     <div className="mt-12">
       <table className="mx-auto text-center">

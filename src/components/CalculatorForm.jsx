@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
 function CalculatorForm(props) {
+  // this state is not that necessary but keeps things simple.
   const [showButton, setShowButton] = useState(true);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     props.setResults((prev) => ({ ...prev, show: true }));
